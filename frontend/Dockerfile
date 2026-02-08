@@ -11,7 +11,12 @@ RUN pnpm install --frozen-lockfile
 # --- Builder ---------------------------------------------------------------
 FROM node:20-alpine AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# Install dependencies in the builder stage (safer with pnpm's hoisted store)
+COPY package.json pnpm-lock.yaml ./
+RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN CI=true pnpm install --frozen-lockfile --shamefully-hoist
+
+# Copy the rest of the project and build
 COPY . .
 # Build the Next.js app (requires next.config.js with output: 'standalone')
 RUN pnpm build
