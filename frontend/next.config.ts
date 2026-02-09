@@ -3,16 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: true,
-  // Polling for Docker Desktop on Windows
-  webpack: (config, { dev, isServer }) => {
-    if (dev && !isServer) {
-      config.watchOptions = {
-        poll: 1000,
-        aggregateTimeout: 300,
-      };
-    }
-    return config;
-  },
+  // Turbopack se activa vía CLI con el flag --turbopack en Next.js 15+
+  // Para silenciar el error de configuración de webpack, simplemente eliminamos la propiedad webpack
 };
 
 export default nextConfig;

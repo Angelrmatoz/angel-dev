@@ -8,7 +8,10 @@ services:
       - ./:/app:rw
       - next_cache:/app/.next
       - /app/node_modules
-    # Keep .next inside a named Docker volume to avoid polluting the host with build artifacts
+      - /app/.pnpm-store
+      - /app/pnpm-store
+      - pnpm-store:/pnpm/store
+    # Keep .next and pnpm store inside named Docker volumes to avoid polluting the host
     ports:
       - "3000:3000"
     environment:
@@ -16,15 +19,18 @@ services:
       - HOST=0.0.0.0
       - PORT=3000
       - WATCHPACK_POLLING=true
-      - NEXT_WEBPACK_USE_POLLING=true
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=200
-    command: pnpm exec next dev --webpack -H 0.0.0.0
-    stdin_open: true
-    tty: true
+      - CI=true
+      - FORCE_COLOR=1
+      - PNPM_CONFIG_STORE_DIR=/pnpm/store
+      - PNPM_CONFIG_PACKAGE_IMPORT_METHOD=copy
+    command: sh -c "pnpm install --store-dir /pnpm/store || pnpm install --store-dir /pnpm/store --force && pnpm run dev -H 0.0.0.0"
+    # removed stdin_open and tty to avoid hanging on interactive prompts
 
 volumes:
   next_cache: {}
+  pnpm-store: {}
 # Use `docker compose -f docker-compose.dev.yml up` to run dev mode (hot reload)
 # Notes:
 # - Removed `:cached` from the bind mount so file change events propagate immediately.

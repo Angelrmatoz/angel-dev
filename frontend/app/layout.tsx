@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
+import NavBar from "@/components/NavBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,18 +29,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* Global aurora background */}
-        <div
-          className="fixed inset-0 -z-50 bg-[#0a0a0a] isolate"
-          aria-hidden="true"
-        >
-          <div
-            className="absolute inset-0 bg-aurora pointer-events-none"
-            aria-hidden="true"
-          />
-        </div>
-
-        {children}
+        <NavBar />
+        <BackgroundGradientAnimation>
+          {children}
+        </BackgroundGradientAnimation>
       </body>
     </html>
   );
