@@ -15,9 +15,11 @@ services:
       - NODE_ENV=development
       - HOST=0.0.0.0
       - PORT=3000
+      - WATCHPACK_POLLING=true
+      - NEXT_WEBPACK_USE_POLLING=true
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=200
-    command: pnpm exec next dev -H 0.0.0.0
+    command: pnpm exec next dev --webpack -H 0.0.0.0
     stdin_open: true
     tty: true
 
