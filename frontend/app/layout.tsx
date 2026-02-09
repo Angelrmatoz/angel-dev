@@ -27,6 +27,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Global aurora background */}
+        <div
+          className="fixed inset-0 -z-50 bg-[#0a0a0a] isolate"
+          aria-hidden="true"
+        >
+          <div
+            className="absolute inset-0 bg-aurora pointer-events-none"
+            aria-hidden="true"
+          />
+        </div>
+
         {children}
       </body>
     </html>

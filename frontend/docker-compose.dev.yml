@@ -5,15 +5,25 @@ services:
       dockerfile: Dockerfile
       target: dev
     volumes:
-      - ./:/app:cached
+      - ./:/app:rw
+      - next_cache:/app/.next
       - /app/node_modules
+    # Keep .next inside a named Docker volume to avoid polluting the host with build artifacts
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
       - HOST=0.0.0.0
       - PORT=3000
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=200
     command: pnpm exec next dev -H 0.0.0.0
     stdin_open: true
     tty: true
+
+volumes:
+  next_cache: {}
 # Use `docker compose -f docker-compose.dev.yml up` to run dev mode (hot reload)
+# Notes:
+# - Removed `:cached` from the bind mount so file change events propagate immediately.
+# - Enabled CHOKIDAR polling which is more reliable for file changes when using Docker volumes on macOS/Windows.
