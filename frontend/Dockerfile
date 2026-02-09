@@ -25,17 +25,18 @@ RUN pnpm build
 FROM node:20-alpine AS dev
 WORKDIR /app
 ENV CI=true
-# Move pnpm store outside of /app to avoid host pollution when using bind mounts
-ENV PNPM_CONFIG_STORE_DIR=/pnpm/store
-ENV PNPM_CONFIG_CACHE_DIR=/pnpm/cache
-ENV PNPM_CONFIG_STATE_DIR=/pnpm/state
-ENV PNPM_CONFIG_PACKAGE_IMPORT_METHOD=copy
+
+# Configuración de aislamiento total para pnpm
+ENV PNPM_HOME=/pnpm
+ENV PATH=$PNPM_HOME:$PATH
+
+RUN mkdir -p /pnpm && chmod 777 /pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --store-dir /pnpm/store
-COPY . .
+
+COPY package.json pnpm-lock.yaml .npmrc ./
+
 EXPOSE 3000
-CMD ["sh", "-c", "pnpm install --store-dir /pnpm/store || pnpm install --store-dir /pnpm/store --force && pnpm dev -H 0.0.0.0"]
+CMD ["sh", "-c", "pnpm install && pnpm dev -H 0.0.0.0"]
 
 # --- Runtime (standalone) -------------------------------------------------
 FROM node:20-alpine AS runner

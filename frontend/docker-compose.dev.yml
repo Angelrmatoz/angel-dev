@@ -8,7 +8,7 @@ services:
       - ./:/app:rw
       - next_cache:/app/.next
       - /app/node_modules
-      - pnpm-store:/pnpm/store
+      - pnpm-store:/pnpm
     # Keep .next and pnpm store inside named Docker volumes to avoid polluting the host
     ports:
       - "3000:3000"
@@ -21,11 +21,7 @@ services:
       - CHOKIDAR_INTERVAL=200
       - CI=true
       - FORCE_COLOR=1
-      - PNPM_CONFIG_STORE_DIR=/pnpm/store
-      - PNPM_CONFIG_CACHE_DIR=/pnpm/cache
-      - PNPM_CONFIG_STATE_DIR=/pnpm/state
-      - PNPM_CONFIG_PACKAGE_IMPORT_METHOD=copy
-    command: sh -c "pnpm install --store-dir /pnpm/store || pnpm install --store-dir /pnpm/store --force && pnpm run dev -H 0.0.0.0"
+    command: sh -c "pnpm install && pnpm run dev -H 0.0.0.0"
     # removed stdin_open and tty to avoid hanging on interactive prompts
 
 volumes:
