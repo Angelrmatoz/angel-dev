@@ -27,6 +27,8 @@ WORKDIR /app
 ENV CI=true
 # Move pnpm store outside of /app to avoid host pollution when using bind mounts
 ENV PNPM_CONFIG_STORE_DIR=/pnpm/store
+ENV PNPM_CONFIG_CACHE_DIR=/pnpm/cache
+ENV PNPM_CONFIG_STATE_DIR=/pnpm/state
 ENV PNPM_CONFIG_PACKAGE_IMPORT_METHOD=copy
 RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY package.json pnpm-lock.yaml ./
