@@ -4,12 +4,12 @@ import {DockMenu} from "@/components/DockMenu";
 
 export default function Home() {
     return (
-        <main className="relative z-10 flex items-center min-h-screen">
+        <main className="relative z-10 flex items-center min-h-screen mt-6">
             <div className="container mx-auto px-6 lg:px-20 py-12">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                     {/* Sección izquierda: texto de presentación */}
                     <section className="max-w-xl mx-auto lg:mx-0">
-                        <Badge className="inline-block bg-gray-800/60 text-sm text-gray-200 px-3 py-1 mb-4">
+                        <Badge className="inline-block bg-gray-800/60 text-sm text-gray-200 px-3 py-1 mb-2">
                             UI/UX
                         </Badge>
 
