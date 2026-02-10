@@ -3,8 +3,18 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: true,
-  // Turbopack se activa vía CLI con el flag --turbopack en Next.js 15+
-  // Para silenciar el error de configuración de webpack, simplemente eliminamos la propiedad webpack
+
+
+  webpack: (config, { dev }) => {
+    if (dev && config && typeof config === "object") {
+      // @ts-ignore - watchOptions existe en la configuración de Webpack
+      config.watchOptions = {
+        poll: 1000,
+        aggregateTimeout: 300,
+      };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;

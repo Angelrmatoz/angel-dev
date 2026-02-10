@@ -6,7 +6,7 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # Copy dependency manifests and install (cached layer)
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --store-dir /pnpm/store
+RUN pnpm install --frozen-lockfile
 
 # --- Builder ---------------------------------------------------------------
 FROM node:20-alpine AS builder
@@ -14,7 +14,7 @@ WORKDIR /app
 # Install dependencies in the builder stage (safer with pnpm's hoisted store)
 COPY package.json pnpm-lock.yaml ./
 RUN corepack enable && corepack prepare pnpm@latest --activate
-RUN CI=true PNPM_CONFIG_PACKAGE_IMPORT_METHOD=copy pnpm install --frozen-lockfile --shamefully-hoist --store-dir /pnpm/store
+RUN CI=true PNPM_CONFIG_PACKAGE_IMPORT_METHOD=copy pnpm install --frozen-lockfile --shamefully-hoist
 
 # Copy the rest of the project and build
 COPY . .
@@ -26,17 +26,15 @@ FROM node:20-alpine AS dev
 WORKDIR /app
 ENV CI=true
 
-# Configuración de aislamiento total para pnpm
-ENV PNPM_HOME=/pnpm
-ENV PATH=$PNPM_HOME:$PATH
-
-RUN mkdir -p /pnpm && chmod 777 /pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-COPY package.json pnpm-lock.yaml .npmrc ./
+# Copiamos manifests e instalamos dependencias en la imagen DEV
+# Esto asegura que node_modules exista antes de montar el volumen
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 EXPOSE 3000
-CMD ["sh", "-c", "pnpm install && pnpm dev -H 0.0.0.0"]
+CMD ["pnpm", "dev"]
 
 # --- Runtime (standalone) -------------------------------------------------
 FROM node:20-alpine AS runner

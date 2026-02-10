@@ -1,33 +1,32 @@
 services:
+
   frontend:
+
     build:
       context: .
       dockerfile: Dockerfile
       target: dev
+
     volumes:
       - ./:/app:rw
-      - next_cache:/app/.next
-      - /app/node_modules
-      - pnpm-store:/pnpm
-    # Keep .next and pnpm store inside named Docker volumes to avoid polluting the host
+      - node_modules:/app/node_modules
+
     ports:
       - "3000:3000"
+
     environment:
       - NODE_ENV=development
       - HOST=0.0.0.0
       - PORT=3000
+      - CI=true
       - WATCHPACK_POLLING=true
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=200
-      - CI=true
-      - FORCE_COLOR=1
-    command: sh -c "pnpm install && pnpm run dev -H 0.0.0.0"
-    # removed stdin_open and tty to avoid hanging on interactive prompts
+      - RUST_LOG=trace
+      - RUST_BACKTRACE=1
+
+    # Instalación básica y arranque en modo dev (forzar Webpack)
+    command: sh -c "pnpm install && pnpm run dev"
 
 volumes:
-  next_cache: {}
-  pnpm-store: {}
-# Use `docker compose -f docker-compose.dev.yml up` to run dev mode (hot reload)
-# Notes:
-# - Removed `:cached` from the bind mount so file change events propagate immediately.
-# - Enabled CHOKIDAR polling which is more reliable for file changes when using Docker volumes on macOS/Windows.
+  node_modules: { }
