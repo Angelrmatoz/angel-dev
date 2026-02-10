@@ -37,11 +37,6 @@ export default function Home() {
                             </p>
 
                             <p>
-                                Creo en la importancia de escribir código modular, mantenible y escalable. Cada proyecto
-                                es una oportunidad para aprender algo nuevo y mejorar mi craft.
-                            </p>
-
-                            <p>
                                 Si buscas a alguien apasionado por la calidad del código, comprometido con el
                                 aprendizaje continuo y dispuesto a entregar soluciones que realmente marquen la
                                 diferencia, me encantaría conectar. Let’s build something great together.
@@ -66,9 +61,3 @@ export default function Home() {
         </main>
     );
 }
-// HOT-RELOAD-TEST 2026-02-09T23:22:57.0185682-04:00
-// IN_CONTAINER_TEST 
-// test-host-edit 2026-02-09T23:31:45.4420884-04:00
-// HOT-RELOAD-WEBPACK 2026-02-09T23:36:35.1885445-04:00
-// HOTCHECK_WEBPACK 2026-02-09T23:39:54.6857607-04:00
-// IN_CONTAINER_EDIT 

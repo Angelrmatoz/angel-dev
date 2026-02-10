@@ -6,7 +6,6 @@
  **/
 
 import { cn } from "@/lib/utils";
-import { IconLayoutNavbarCollapse } from "@tabler/icons-react";
 import {
   AnimatePresence,
   MotionValue,
@@ -16,79 +15,22 @@ import {
   useTransform,
 } from "motion/react";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export const FloatingDock = ({
   items,
   desktopClassName,
-  mobileClassName,
 }: {
   items: { title: string; icon: React.ReactNode; href: string }[];
   desktopClassName?: string;
-  mobileClassName?: string;
 }) => {
-  return (
-    <>
-      <FloatingDockDesktop items={items} className={desktopClassName} />
-      <FloatingDockMobile items={items} className={mobileClassName} />
-    </>
-  );
+  // Render only the desktop variant so that from `sm` upwards the horizontal
+  // dock is visible (no toggle button). This makes `sm` behave like `md`/`lg`.
+  return <FloatingDockDesktop items={items} className={desktopClassName} />;
 };
 
-const FloatingDockMobile = ({
-  items,
-  className,
-}: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
-  className?: string;
-}) => {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className={cn("relative block md:hidden", className)}>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            layoutId="nav"
-            className="absolute inset-x-0 bottom-full mb-2 flex flex-col gap-2"
-          >
-            {items.map((item, idx) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                exit={{
-                  opacity: 0,
-                  y: 10,
-                  transition: {
-                    delay: idx * 0.05,
-                  },
-                }}
-                transition={{ delay: (items.length - 1 - idx) * 0.05 }}
-              >
-                <a
-                  href={item.href}
-                  key={item.title}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent"
-                >
-                  <div className="h-4 w-4">{item.icon}</div>
-                </a>
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <button
-        onClick={() => setOpen(!open)}
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent"
-      >
-        <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
-      </button>
-    </div>
-  );
-};
+// Mobile variant removed: we intentionally keep only the desktop dock so that
+// sm behaves exactly like md/lg (horizontal bar, no toggle button).
 
 const FloatingDockDesktop = ({
   items,
@@ -102,8 +44,15 @@ const FloatingDockDesktop = ({
     <motion.div
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
+      data-variant="desktop"
       className={cn(
-        "mx-auto hidden h-16 items-end gap-4 rounded-2xl px-4 pb-3 md:flex",
+        // In small screens the dock is in-flow (not fixed). From md and up
+        // it becomes fixed and centered at the bottom like before. On small
+        // screens it will be full-width and centered below the text.
+        // Now we keep the dock in-flow for all sizes so it appears directly
+        // below the content. We center it and limit its max width so it's
+        // symmetric on md/lg as requested.
+        "w-full flex justify-center h-12 md:h-16 items-center gap-4 rounded-2xl px-4 pb-3 mx-auto max-w-xl",
         className,
       )}
     >
@@ -127,43 +76,54 @@ function IconContainer({
 }) {
   let ref = useRef<HTMLDivElement>(null);
 
-  let distance = useTransform(mouseX, (val) => {
-    let bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+  // Detect small screens to disable the hover/resize animation on touch
+  // devices (and small viewports). We use a media query for < md.
+  const [isSmall, setIsSmall] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const handle = (e: MediaQueryListEvent | MediaQueryList) =>
+      setIsSmall((e as any).matches ?? mq.matches);
+    // initialize
+    setIsSmall(mq.matches);
+    // add listener (support both addEventListener and addListener)
+    if ((mq as any).addEventListener)
+      mq.addEventListener("change", handle as any);
+    else mq.addListener(handle as any);
+    return () => {
+      if ((mq as any).removeEventListener)
+        mq.removeEventListener("change", handle as any);
+      else mq.removeListener(handle as any);
+    };
+  }, []);
 
+  // On small screens we disable the proximity-based size animation and
+  // use fixed sizes so tapping an icon won't make it grow. On larger
+  // screens preserve the original interactive behavior.
+  // Always create the motion transforms/springs so Hooks order is stable.
+  // We will use static numbers for styles when `isSmall` is true.
+  const distance = useTransform(mouseX, (val) => {
+    let bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
     return val - bounds.x - bounds.width / 2;
   });
 
-  let widthTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
-  let heightTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
+  const widthTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
+  const heightTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
 
-  let widthTransformIcon = useTransform(distance, [-150, 0, 150], [20, 40, 20]);
-  let heightTransformIcon = useTransform(
-    distance,
-    [-150, 0, 150],
-    [20, 40, 20],
-  );
+  const widthTransformIcon = useTransform(distance, [-150, 0, 150], [20, 40, 20]);
+  const heightTransformIcon = useTransform(distance, [-150, 0, 150], [20, 40, 20]);
 
-  let width = useSpring(widthTransform, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
-  let height = useSpring(heightTransform, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
+  const springOpts = { mass: 0.1, stiffness: 150, damping: 12 };
+  const widthSpring = useSpring(widthTransform, springOpts);
+  const heightSpring = useSpring(heightTransform, springOpts);
+  const widthIconSpring = useSpring(widthTransformIcon, springOpts);
+  const heightIconSpring = useSpring(heightTransformIcon, springOpts);
 
-  let widthIcon = useSpring(widthTransformIcon, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
-  let heightIcon = useSpring(heightTransformIcon, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
+  // Use static numeric sizes on small screens to avoid animation; otherwise
+  // use the motion springs.
+  let width: number | MotionValue = isSmall ? 40 : widthSpring;
+  let height: number | MotionValue = isSmall ? 40 : heightSpring;
+  let widthIcon: number | MotionValue = isSmall ? 20 : widthIconSpring;
+  let heightIcon: number | MotionValue = isSmall ? 20 : heightIconSpring;
 
   const [hovered, setHovered] = useState(false);
 
