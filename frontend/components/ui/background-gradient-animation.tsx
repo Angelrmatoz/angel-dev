@@ -40,35 +40,19 @@ export const BackgroundGradientAnimation = ({
   const tgXRef = useRef(0);
   const tgYRef = useRef(0);
 
-  useEffect(() => {
-    document.body.style.setProperty(
-      "--gradient-background-start",
-      gradientBackgroundStart
-    );
-    document.body.style.setProperty(
-      "--gradient-background-end",
-      gradientBackgroundEnd
-    );
-    document.body.style.setProperty("--first-color", firstColor);
-    document.body.style.setProperty("--second-color", secondColor);
-    document.body.style.setProperty("--third-color", thirdColor);
-    document.body.style.setProperty("--fourth-color", fourthColor);
-    document.body.style.setProperty("--fifth-color", fifthColor);
-    document.body.style.setProperty("--pointer-color", pointerColor);
-    document.body.style.setProperty("--size", size);
-    document.body.style.setProperty("--blending-value", blendingValue);
-  }, [
-    gradientBackgroundStart,
-    gradientBackgroundEnd,
-    firstColor,
-    secondColor,
-    thirdColor,
-    fourthColor,
-    fifthColor,
-    pointerColor,
-    size,
-    blendingValue,
-  ]);
+  // Apply CSS variables inline so they are present on SSR HTML and avoid flash where text appears before background.
+  const cssVars: React.CSSProperties = {
+    ["--gradient-background-start" as any]: gradientBackgroundStart,
+    ["--gradient-background-end" as any]: gradientBackgroundEnd,
+    ["--first-color" as any]: firstColor,
+    ["--second-color" as any]: secondColor,
+    ["--third-color" as any]: thirdColor,
+    ["--fourth-color" as any]: fourthColor,
+    ["--fifth-color" as any]: fifthColor,
+    ["--pointer-color" as any]: pointerColor,
+    ["--size" as any]: size,
+    ["--blending-value" as any]: blendingValue,
+  };
 
   useEffect(() => {
     let requestIdentifier: number;
@@ -106,6 +90,7 @@ export const BackgroundGradientAnimation = ({
         containerClassName
       )}
       onMouseMove={handleMouseMove}
+      style={cssVars}
     >
       <svg className="hidden">
         <defs>

@@ -164,4 +164,88 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Previene overflow horizontal no deseado mientras permite scroll vertical.
+     - overflow-x: hidden evita que el contenido se extienda más allá del viewport.
+     - width/max-width aseguran que ningún elemento intente usar más de 100vw (evita desplazamiento por barras de scroll).
+     - overscroll-behavior-x evita que el usuario haga un "pull" horizontal accidental en dispositivos táctiles. */
+  html,
+  body,
+  #__next,
+  main {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+  }
+  /* Box sizing consistente para evitar que padding/border roten el ancho calculado. */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* Asegura que imágenes y otros medios no rompan el ancho del layout */
+  img,
+  picture,
+  video,
+  svg,
+  iframe {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Evita que elementos que usan 100vw provoquen scroll horizontal por scrollbars del sistema.
+     Si usas utilidades con 100vw, considera cambiar a max-w-screen or max-width:100vw en casos puntuales. */
+  .prevent-overflow-100vw {
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+}
+
+@layer utilities {
+  /* Removed fade-blur animation (no longer used). Keep other keyframes for background movement. */
+
+  /* Existing movement keyframes (preserve) */
+  @keyframes moveHorizontal {
+    0% {
+      transform: translateX(-50%) translateY(-10%);
+    }
+    50% {
+      transform: translateX(50%) translateY(10%);
+    }
+    100% {
+      transform: translateX(-50%) translateY(-10%);
+    }
+  }
+  @keyframes moveInCircle {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes moveVertical {
+    0% {
+      transform: translateY(-50%);
+    }
+    50% {
+      transform: translateY(50%);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
+  .fade-blur-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
 }
