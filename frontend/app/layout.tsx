@@ -24,9 +24,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ height: '100%', overflow: 'hidden' }}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        style={{ height: '100%', overflow: 'hidden', position: 'fixed', width: '100%' }}
       >
         <BackgroundGradientAnimation>
           {children}

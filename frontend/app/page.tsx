@@ -12,7 +12,7 @@ export default function Home() {
                 <NavBar/>
                 <HamburgerSideBar/>
             </header>
-            <main className="relative z-10 flex flex-col items-center min-h-screen mt-6">
+            <main className="relative z-10 flex flex-col items-center h-full overflow-y-auto overflow-x-hidden mt-6">
                 <div className="container mx-auto px-6 lg:px-20 py-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                         {/* Sección izquierda: texto de presentación */}

@@ -86,7 +86,7 @@ export const BackgroundGradientAnimation = ({
   return (
     <div
       className={cn(
-        "min-h-screen w-full relative overflow-hidden top-0 left-0 bg-[linear-gradient(40deg,var(--gradient-background-start),var(--gradient-background-end))]",
+        "h-full w-full relative overflow-hidden top-0 left-0 bg-[linear-gradient(40deg,var(--gradient-background-start),var(--gradient-background-end))]",
         containerClassName
       )}
       onMouseMove={handleMouseMove}
@@ -110,7 +110,7 @@ export const BackgroundGradientAnimation = ({
           </filter>
         </defs>
       </svg>
-      <div className={cn("relative z-10", className)}>{children}</div>
+      <div className={cn("relative z-10 h-full", className)}>{children}</div>
       <div
         className={cn(
           "gradients-container absolute inset-0 h-full w-full blur-lg",
