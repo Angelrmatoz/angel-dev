@@ -59,7 +59,9 @@ export default function Home() {
                         </section>
 
                         {/* Aside derecho: imagen */}
-                        <HeroAside/>
+                        <div className="py-8 lg:py-0">
+                            <HeroAside/>
+                        </div>
                     </div>
                 </div>
 
