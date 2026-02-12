@@ -47,7 +47,7 @@ export default function NavBar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 bg-transparent transform transition-transform duration-300 ease-in-out ${
+      className={`fixed top-0 left-0 w-full z-50 bg-transparent transform transition-transform duration-300 ease-in-out hidden lg:block ${
         hidden ? "-translate-y-full" : "translate-y-0"
       }`}
       style={{ willChange: "transform" }}

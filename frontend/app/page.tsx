@@ -2,14 +2,17 @@ import {Badge} from "@/components/ui/badge";
 import {HeroAside} from "@/components/HeroAside";
 import {DockMenu} from "@/components/DockMenu";
 import NavBar from "@/components/NavBar";
+import {Experience} from "@/components/Experience";
+import {HamburgerSideBar} from "@/components/HamburgerSideBar";
 
 export default function Home() {
     return (
         <>
             <header>
                 <NavBar/>
+                <HamburgerSideBar/>
             </header>
-            <main className="relative z-10 flex items-center min-h-screen mt-6">
+            <main className="relative z-10 flex flex-col items-center min-h-screen mt-6">
                 <div className="container mx-auto px-6 lg:px-20 py-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                         {/* Sección izquierda: texto de presentación */}
@@ -58,12 +61,15 @@ export default function Home() {
                         {/* Aside derecho: imagen */}
                         <HeroAside/>
                     </div>
+                </div>
 
+                {/* Sección de Experiencia con Timeline */}
+                <Experience/>
 
+                <div className="container mx-auto px-6 lg:px-20">
                     {/* Anchor targets */}
-                    <div id="experience" aria-hidden="true" className="scroll-mt-20"/>
-                    <div id="projects" aria-hidden="true" className="scroll-mt-20"/>
-                    <div id="contact" aria-hidden="true"/>
+                    <div id="projects" aria-hidden="true" className="scroll-mt-20 py-10"/>
+                    <div id="contact" aria-hidden="true" className="py-10"/>
                 </div>
             </main>
         </>
