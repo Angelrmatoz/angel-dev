@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: "Full-Stack Web & Mobile Developer",
   icons: {
     icon: [
-      { url: "@/icon.svg", type: "image/svg+xml" }
+      { url: "@/public/icons/icon.svg", type: "image/svg+xml" }
     ]
   }
 };
