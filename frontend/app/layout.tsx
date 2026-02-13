@@ -29,12 +29,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" style={{ height: '100%', overflow: 'hidden' }}>
+    <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        style={{ height: '100%', overflow: 'hidden', position: 'fixed', width: '100%' }}
       >
-        <BackgroundGradientAnimation>
+        <BackgroundGradientAnimation
+          containerClassName="min-h-screen flex flex-col"
+          className="flex-1 flex flex-col"
+        >
           {children}
         </BackgroundGradientAnimation>
       </body>
