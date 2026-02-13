@@ -12,21 +12,12 @@ interface Repo {
   stargazers_count: number;
   language: string;
   homepage: string;
+  topics: string[];
 }
 
 export const Projects = () => {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // Lista de proyectos que queremos mostrar explícitamente (según la imagen del usuario)
-  const pinnedRepoNames = [
-    "DGATest",
-    "sistema-cafeteria",
-    "property-group-4",
-    "angel-dev",
-    "full-stack-open-pokedex",
-    "part12-containers-applications"
-  ];
 
   useEffect(() => {
     const fetchRepos = async () => {
@@ -35,11 +26,20 @@ export const Projects = () => {
         const data = await response.json();
         
         if (Array.isArray(data)) {
-          // Filtrar los repositorios que el usuario tiene como pinned en la imagen
-          const filteredRepos = data
-            .filter((repo: any) => pinnedRepoNames.includes(repo.name))
-            // Ordenar según el orden en pinnedRepoNames para mantener la consistencia con la imagen
-            .sort((a, b) => pinnedRepoNames.indexOf(a.name) - pinnedRepoNames.indexOf(b.name));
+          // Intentar filtrar por el tópico 'portfolio' para que el usuario pueda elegir qué mostrar desde GitHub
+          let filteredRepos = data.filter((repo: Repo) => 
+            repo.topics && repo.topics.includes("portfolio")
+          );
+
+          // Si no hay ninguno marcado con 'portfolio', mostrar los 6 más recientes (excluyendo forks si es posible)
+          if (filteredRepos.length === 0) {
+            filteredRepos = data
+              .filter((repo: any) => !repo.fork)
+              .slice(0, 6);
+          } else {
+            // Ordenar los marcados con 'portfolio' por estrellas o fecha si se desea
+            filteredRepos.sort((a: Repo, b: Repo) => b.stargazers_count - a.stargazers_count);
+          }
           
           setRepos(filteredRepos);
         }
@@ -68,8 +68,8 @@ export const Projects = () => {
       </h2>
       <div className="max-w-7xl mx-auto px-4">
         <HoverEffect
-          items={repos.map(r => ({ ...r, link: r.html_url }))}
-          renderItem={(repo: Repo) => (
+          items={repos.map(r => ({ ...r, title: r.name, link: r.html_url }))}
+          renderItem={(repo: Repo & { title: string; link: string }) => (
             <div className="flex flex-col h-full">
               <div className="flex items-center justify-between mb-2">
                 <h4 className="text-zinc-100 font-bold tracking-wide text-xl flex items-center gap-2">
