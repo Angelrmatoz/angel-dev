@@ -4,6 +4,7 @@ import {DockMenu} from "@/components/DockMenu";
 import NavBar from "@/components/NavBar";
 import {Experience} from "@/components/Experience";
 import {HamburgerSideBar} from "@/components/HamburgerSideBar";
+import {Projects} from "@/components/Projects";
 
 export default function Home() {
     return (
@@ -66,11 +67,14 @@ export default function Home() {
                 </div>
 
                 {/* Sección de Experiencia con Timeline */}
-                <Experience/>
+                <section>
+                    <Experience/>
+                </section>
+
+                <Projects/>
 
                 <div className="container mx-auto px-6 lg:px-20">
                     {/* Anchor targets */}
-                    <div id="projects" aria-hidden="true" className="scroll-mt-20 py-10"/>
                     <div id="contact" aria-hidden="true" className="py-10"/>
                 </div>
             </main>
