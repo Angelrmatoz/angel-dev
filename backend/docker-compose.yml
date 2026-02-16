@@ -1,7 +1,9 @@
 services:
   backend:
+    image: backend-prod:latest
     build:
       context: .
+      dockerfile: Dockerfile
       target: production
     container_name: portfolio-backend-prod
     restart: always
