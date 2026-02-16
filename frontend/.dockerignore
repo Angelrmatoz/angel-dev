@@ -2,7 +2,7 @@
 node_modules
 .pnpm-store
 
-# Ignore Next/Build outputs
+# Ignore Next/Build outputs (CRITICAL: evita conflictos de caché)
 .next
 out
 build

@@ -1,4 +1,4 @@
-import { getPinnedRepos } from '../../services/github.services.ts';
+import { getPinnedRepos } from '../../services/github.services.js';
 
 export const repoResolvers = {
   Query: {

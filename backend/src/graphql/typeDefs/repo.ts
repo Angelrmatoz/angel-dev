@@ -13,7 +13,7 @@ export const repoTypeDefs = `#graphql
     homepageUrl: String
   }
 
-  type Query {
+  extend type Query {
     pinnedRepos(username: String!): [Repository]
   }
 `;

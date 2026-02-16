@@ -1,4 +1,10 @@
-import { repoTypeDefs } from './repo.ts';
+import { repoTypeDefs } from './repo.js';
+import { userTypeDefs } from './user.js';
 
-// Aquí puedes combinar otros typeDefs si los tienes (ej. userTypeDefs)
-export const typeDefs = [repoTypeDefs];
+const rootTypeDefs = `#graphql
+  type Query {
+    _empty: String
+  }
+`;
+
+export const typeDefs = [rootTypeDefs, repoTypeDefs, userTypeDefs];
