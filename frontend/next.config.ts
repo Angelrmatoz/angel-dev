@@ -4,10 +4,16 @@ const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: true,
 
-
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.jsdelivr.net",
+      },
+    ],
+  },
   webpack: (config, { dev }) => {
     if (dev && config && typeof config === "object") {
-      // @ts-ignore - watchOptions existe en la configuración de Webpack
       config.watchOptions = {
         poll: 1000,
         aggregateTimeout: 300,

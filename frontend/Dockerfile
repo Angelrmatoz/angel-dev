@@ -1,51 +1,68 @@
-# --- Build dependencies -----------------------------------------------------
-FROM node:20-alpine AS deps
+# Stage 1: Base
+FROM node:20-alpine AS base
 WORKDIR /app
-# Enable pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Variables para pnpm
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-# Copy dependency manifests and install (cached layer)
-COPY package.json pnpm-lock.yaml ./
+# Stage 2: Dependencias (Común para producción)
+FROM base AS deps
+COPY package.json pnpm-lock.yaml* .npmrc* ./
 RUN pnpm install --frozen-lockfile
 
-# --- Builder ---------------------------------------------------------------
-FROM node:20-alpine AS builder
+# Stage 3: Desarrollo
+FROM base AS dev
+ENV NODE_ENV=development
 WORKDIR /app
-# Install dependencies in the builder stage (safer with pnpm's hoisted store)
-COPY package.json pnpm-lock.yaml ./
-RUN corepack enable && corepack prepare pnpm@latest --activate
-RUN CI=true PNPM_CONFIG_PACKAGE_IMPORT_METHOD=copy pnpm install --frozen-lockfile --shamefully-hoist
 
-# Copy the rest of the project and build
-COPY . .
-# Build the Next.js app (requires next.config.js with output: 'standalone')
-RUN pnpm build
+# Crear directorio /pnpm con permisos
+RUN mkdir -p /pnpm/store && chmod -R 777 /pnpm
 
-# --- Dev stage (used by docker-compose.dev.yml) ---------------------------
-FROM node:20-alpine AS dev
-WORKDIR /app
-ENV CI=true
+# Limpiar cualquier build cache previo
+RUN rm -rf .next node_modules 2>/dev/null || true
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Copiar solo los archivos de configuración para que pnpm install funcione
+COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml* .npmrc* ./
 
-# Copiamos manifests e instalamos dependencias en la imagen DEV
-# Esto asegura que node_modules exista antes de montar el volumen
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
-
+# Exponer el puerto
 EXPOSE 3000
-CMD ["pnpm", "dev"]
 
-# --- Runtime (standalone) -------------------------------------------------
+# El comando se sobreescribe en docker-compose.dev.yml
+CMD ["sh", "-c", "pnpm install && pnpm run dev"]
+
+# Stage 4: Builder (Para Producción)
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN pnpm run build
+
+# Stage 5: Runner (Imagen Final de Producción)
 FROM node:20-alpine AS runner
 WORKDIR /app
-ENV NODE_ENV=production
 
-# Copy standalone server (server.js + minimal node_modules)
-COPY --from=builder /app/.next/standalone ./
-# Copy static assets
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Copiar public desde builder
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+
+# Copiar todo el contenido del directorio standalone
+# Esto incluye: server.js, package.json, .next/, node_modules optimizados
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+
+# Sobrescribir .next/static con los archivos estáticos optimizados
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
 
 EXPOSE 3000
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
 CMD ["node", "server.js"]

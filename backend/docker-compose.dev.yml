@@ -1,0 +1,25 @@
+services:
+  backend:
+    image: backend-dev:latest
+    container_name: backend-dev-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "${PORT:-9000}:9000"
+    volumes:
+      - .:/app:rw
+      - backend_dev_node_modules:/app/node_modules
+      - backend_dev_pnpm:/pnpm
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=development
+      - CI=true
+    # Comando simplificado sin problemas de permisos
+    command: sh -c "pnpm config set store-dir /pnpm/store && pnpm install && pnpm run dev"
+
+volumes:
+  backend_dev_node_modules:
+  backend_dev_pnpm:

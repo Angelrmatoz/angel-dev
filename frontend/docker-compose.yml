@@ -1,14 +1,13 @@
 services:
   frontend:
+    image: frontend-prod:latest
     build:
       context: .
       dockerfile: Dockerfile
       target: runner
+    container_name: portfolio-frontend-prod
+    restart: always
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - HOST=0.0.0.0
-      - PORT=3000
-    restart: unless-stopped
-# Use `docker compose up` inside the `frontend` folder to run production image

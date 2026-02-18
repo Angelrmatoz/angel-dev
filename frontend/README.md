@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ángel Matos - Portfolio Frontend
 
-## Getting Started
+Esta es la aplicación cliente del portafolio, construida con **Next.js 15** y optimizada para ofrecer una experiencia visual impactante.
 
-First, run the development server:
+## 🚀 Tecnologías
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 15 (App Router)**
+- **React 19**
+- **Tailwind CSS**
+- **Framer Motion**
+- **Aceternity UI**
+- **Lucide React / Tabler Icons**
+
+## 🛠️ Características
+
+- **Conexión Dinámica a la API**: El componente de proyectos intenta conectar primero al backend local (`localhost:3001`) y, si falla, utiliza automáticamente el backend desplegado en Vercel.
+- **Diseño Responsivo**: Adaptado para móviles y escritorio.
+- **Optimización de Imágenes**: Uso de `next/image` para carga eficiente.
+- **Componentes Animados**: Timeline de experiencia y galería de proyectos.
+
+## ⚙️ Configuración
+
+Crea un archivo `.env` en la raíz de `frontend/`:
+
+```env
+# URL del backend local
+NEXT_PUBLIC_API_URL=http://localhost:3001
+
+# URL del backend en producción (Vercel)
+NEXT_PUBLIC_API_VERCEL_URL=https://tu-backend.vercel.app
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 💻 Desarrollo Local
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  Instalar dependencias:
+    ```bash
+    pnpm install
+    ```
+2.  Iniciar el servidor de desarrollo:
+    ```bash
+    pnpm run dev
+    ```
+    La aplicación estará disponible en `http://localhost:3000`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📂 Estructura Principal
 
-## Learn More
+- `app/`: Rutas y layout de la aplicación.
+- `components/`: Componentes UI (Experience, Projects, DockMenu, etc.).
+- `public/`: Archivos estáticos como el CV y assets.
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Despliegue
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Puedes desplegar el frontend directamente en Vercel:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+vercel --prod
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Asegúrate de configurar las variables de entorno en el dashboard de Vercel.

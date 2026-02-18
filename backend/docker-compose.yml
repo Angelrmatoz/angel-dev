@@ -1,0 +1,15 @@
+services:
+  backend:
+    image: backend-prod:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: portfolio-backend-prod
+    restart: always
+    ports:
+      - "${PORT:-9000}:9000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production

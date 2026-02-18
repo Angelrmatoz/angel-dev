@@ -21,7 +21,7 @@ export const FloatingDock = ({
   items,
   desktopClassName,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
+  items: { title: string; icon: React.ReactNode; href: string; download?: string | boolean }[];
   desktopClassName?: string;
 }) => {
   // Render only the desktop variant so that from `sm` upwards the horizontal
@@ -36,7 +36,7 @@ const FloatingDockDesktop = ({
   items,
   className,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
+  items: { title: string; icon: React.ReactNode; href: string; download?: string | boolean }[];
   className?: string;
 }) => {
   let mouseX = useMotionValue(Infinity);
@@ -68,11 +68,13 @@ function IconContainer({
   title,
   icon,
   href,
+  download,
 }: {
   mouseX: MotionValue;
   title: string;
   icon: React.ReactNode;
   href: string;
+  download?: string | boolean;
 }) {
   let ref = useRef<HTMLDivElement>(null);
 
@@ -128,7 +130,7 @@ function IconContainer({
   const [hovered, setHovered] = useState(false);
 
   return (
-    <a href={href}>
+    <a href={href} download={download}>
       <motion.div
         ref={ref}
         style={{ width, height }}
