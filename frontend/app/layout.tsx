@@ -17,10 +17,8 @@ export const metadata: Metadata = {
   title: "Ángel Matos",
   description: "Full-Stack Web & Mobile Developer",
   icons: {
-    icon: [
-      { url: "@/public/icons/icon.svg", type: "image/svg+xml" }
-    ]
-  }
+    icon: "/icons/icon.svg",
+  },
 };
 
 export default function RootLayout({
