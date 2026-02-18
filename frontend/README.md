@@ -1,59 +1,41 @@
-# Ángel Matos - Portfolio Frontend
+# Portfolio Frontend (Web App)
 
-Esta es la aplicación cliente del portafolio, construida con **Next.js 15** y optimizada para ofrecer una experiencia visual impactante.
+Esta es la aplicación cliente de mi portafolio profesional, construida con **Next.js 15** y diseñada para ofrecer una experiencia visual premium con animaciones fluidas y soporte para temas modernos.
 
 ## 🚀 Tecnologías
 
-- **Next.js 15 (App Router)**
-- **React 19**
-- **Tailwind CSS**
-- **Framer Motion**
-- **Aceternity UI**
-- **Lucide React / Tabler Icons**
+- **Next.js 15 (App Router)** & **React 19**.
+- **Tailwind CSS**: Estilizado moderno y responsivo.
+- **Framer Motion** & **Aceternity UI**: Micro-interacciones y componentes visuales avanzados.
+- **Lucide React**: Iconografía de alta calidad.
 
-## 🛠️ Características
+## 🔌 Conexión Inteligente a la API
 
-- **Conexión Dinámica a la API**: El componente de proyectos intenta conectar primero al backend local (`localhost:3001`) y, si falla, utiliza automáticamente el backend desplegado en Vercel.
-- **Diseño Responsivo**: Adaptado para móviles y escritorio.
-- **Optimización de Imágenes**: Uso de `next/image` para carga eficiente.
-- **Componentes Animados**: Timeline de experiencia y galería de proyectos.
+El frontend integra un sistema de conexión resiliente que facilita el desarrollo y la producción:
 
-## ⚙️ Configuración
+1. **Local First**: Intenta conectar automáticamente al backend en `http://localhost:3001`.
+2. **Cloud Fallback**: Si el servidor local no está disponible, redirige las peticiones automáticamente a la API de producción en Vercel.
 
-Crea un archivo `.env` en la raíz de `frontend/`:
+Esto garantiza que la web siempre tenga datos, incluso si estás trabajando solo en el frontend localmente.
+
+## ⚙️ Configuración de Entorno
+
+Crea un archivo `.env` en `frontend/`:
 
 ```env
-# URL del backend local
-NEXT_PUBLIC_API_URL=http://localhost:3001
-
-# URL del backend en producción (Vercel)
-NEXT_PUBLIC_API_VERCEL_URL=https://tu-backend.vercel.app
+# URL de la API (Producción/Fallback)
+NEXT_PUBLIC_API_URL=https://tu-api-backend.vercel.app
 ```
 
 ## 💻 Desarrollo Local
 
-1.  Instalar dependencias:
-    ```bash
-    pnpm install
-    ```
-2.  Iniciar el servidor de desarrollo:
-    ```bash
-    pnpm run dev
-    ```
-    La aplicación estará disponible en `http://localhost:3000`.
+1. **Instalar dependencias**: `pnpm install`
+2. **Iniciar servidor**: `pnpm run dev` (Disponible en `http://localhost:3000`).
 
-## 📂 Estructura Principal
+## 🌍 Despliegue
 
-- `app/`: Rutas y layout de la aplicación.
-- `components/`: Componentes UI (Experience, Projects, DockMenu, etc.).
-- `public/`: Archivos estáticos como el CV y assets.
+Automatizado mediante **GitHub Actions**. Cada cambio en las ramas `master` o `dev` genera un build validado que se despliega directamente a Vercel.
 
-## 🚀 Despliegue
+---
 
-Puedes desplegar el frontend directamente en Vercel:
-
-```bash
-vercel --prod
-```
-
-Asegúrate de configurar las variables de entorno en el dashboard de Vercel.
+Desarrollado por [Ángel Matos](https://github.com/Angelrmatoz)

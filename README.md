@@ -1,11 +1,12 @@
 # Ángel Matos - Full Stack Portfolio
 
-Este repositorio contiene mi portafolio profesional, dividido en una arquitectura de Frontend (Next.js) y Backend (Apollo Server/GraphQL).
+Este repositorio contiene mi portafolio profesional, dividido en una arquitectura de Frontend (Next.js) y Backend (Apollo Server/GraphQL), totalmente automatizado con CI/CD.
 
 ## 📂 Estructura del Repositorio
 
 - **`/frontend`**: Aplicación web construida con **Next.js 15**, **Tailwind CSS** y **Framer Motion**.
 - **`/backend`**: API GraphQL construida con **Node.js**, **Apollo Server** y **Express**, desplegada como una Serverless Function en Vercel.
+- **`/.github/workflows`**: Automatización de pruebas, builds y despliegues con **GitHub Actions**.
 
 ## 🚀 Inicio Rápido
 
@@ -23,7 +24,7 @@ cd angel-dev
 ```bash
 cd backend
 pnpm install
-# Crear .env con tu GITHUB_TOKEN
+# Crear .env con tu GITHUB_TOKEN y ALLOWED_ORIGIN=http://localhost:3000
 pnpm run dev:vercel
 ```
 
@@ -34,13 +35,32 @@ _Backend corriendo en `http://localhost:3001`_
 ```bash
 cd ../frontend
 pnpm install
-# Crear .env con las URLs de la API
+# Crear .env con NEXT_PUBLIC_API_URL=http://localhost:3001
 pnpm run dev
 ```
 
 _Frontend corriendo en `http://localhost:3000`_
 
-## 🔌 Conexión Frontend-Backend
+## � Pipeline de CI/CD (GitHub Actions)
+
+El proyecto cuenta con un flujo de trabajo automatizado que garantiza la estabilidad:
+
+1. **Validación**: Cada `push` a `master` o `dev` dispara un build completo de frontend y backend.
+2. **Despliegue Inteligente**:
+   - **Rama `master`**: Despliegue automático a **Producción** en Vercel.
+   - **Rama `dev`**: Despliegue automático a **Preview** en Vercel para pruebas.
+3. **Versatilidad**: El despliegue solo ocurre si el build previo tiene éxito (`deploy needs validate`).
+
+## 🛠️ Configuración de Despliegue (GitHub Secrets)
+
+Para que el pipeline funcione, se requieren los siguientes Secrets en GitHub:
+
+- `VERCEL_TOKEN`: Token de acceso personal de Vercel.
+- `VERCEL_ORG_ID`: ID de tu equipo/usuario en Vercel.
+- `VERCEL_PROJECT_ID_FRONTEND`: ID del proyecto frontend.
+- `VERCEL_PROJECT_ID_BACKEND`: ID del proyecto backend.
+
+## �🔌 Conexión Frontend-Backend
 
 El frontend tiene una lógica de **fallback inteligente**:
 
@@ -49,12 +69,6 @@ El frontend tiene una lógica de **fallback inteligente**:
 
 Esto permite probar cambios locales o usar la API de producción sin cambiar el código.
 
-## 🛠️ Tecnologías Principales
-
-- **Frontend**: Next.js 15, React 19, TypeScript, Tailwind CSS, Aceternity UI.
-- **Backend**: Apollo Server 4, GraphQL, Express, GitHub API Integration.
-- **Despliegue**: Vercel (Frontend & Backend).
-
 ---
 
-Desarrollado por [Ángel Matos](https://github.com/Angelrmatoz) - 2024
+Desarrollado por [Ángel Matos](https://github.com/Angelrmatoz) - 2026
