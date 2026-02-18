@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - dev
 
 jobs:
   validate:
@@ -35,29 +36,76 @@ jobs:
           pnpm install
           pnpm run build
 
-  create-release:
-    name: Automatic Versioning and Release
+  deploy:
+    name: Deploy to Vercel
     needs: validate
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    # Se ejecuta en master o dev
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Necesario para calcular la versión
+      - uses: actions/checkout@v4
 
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.2
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_bump: major # 'fixed' si no hay palabras clave
+          version: 9
 
-      - name: Create GitHub Release
-        uses: ncipollo/release-action@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 20
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel
+
+      # Definimos el flag de producción dinámicamente
+      - name: Set Deployment Environment
+        id: set-env
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+            echo "vercel_args=--prod" >> $GITHUB_OUTPUT
+            echo "vercel_env=production" >> $GITHUB_OUTPUT
+          else
+            echo "vercel_args=" >> $GITHUB_OUTPUT
+            echo "vercel_env=preview" >> $GITHUB_OUTPUT
+          fi
+
+      # --- DESPLIEGUE DEL BACKEND ---
+      - name: Pull Backend Info
+        working-directory: ./backend
+        run: vercel pull --yes --environment=${{ steps.set-env.outputs.vercel_env }} --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_BACKEND }}
+      - name: Build Backend
+        working-directory: ./backend
+        run: vercel build ${{ steps.set-env.outputs.vercel_args }} --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_BACKEND }}
+      - name: Deploy Backend
+        working-directory: ./backend
+        run: vercel deploy --prebuilt ${{ steps.set-env.outputs.vercel_args }} --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_BACKEND }}
+
+      # --- DESPLIEGUE DEL FRONTEND ---
+      - name: Pull Frontend Info
+        working-directory: ./frontend
+        run: vercel pull --yes --environment=${{ steps.set-env.outputs.vercel_env }} --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_FRONTEND }}
+      - name: Build Frontend
+        working-directory: ./frontend
+        run: vercel build ${{ steps.set-env.outputs.vercel_args }} --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_FRONTEND }}
+      - name: Deploy Frontend
+        working-directory: ./frontend
+        run: vercel deploy --prebuilt ${{ steps.set-env.outputs.vercel_args }} --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_FRONTEND }}
