@@ -4,7 +4,14 @@ const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: true,
 
-
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.jsdelivr.net",
+      },
+    ],
+  },
   webpack: (config, { dev }) => {
     if (dev && config && typeof config === "object") {
       config.watchOptions = {
