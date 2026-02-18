@@ -17,8 +17,14 @@ export default async function handler(req: any, res: any) {
   // Configuración manual de CORS
   // Esto es necesario para que el frontend pueda conectarse desde otros dominios (Vercel, localhost, etc.)
   const origin = req.headers.origin;
+
+  // Obtenemos los orígenes permitidos desde el env y los convertimos en un array
+  const envOrigins = (process.env.ALLOWED_ORIGIN || "")
+    .split(",")
+    .map((o) => o.trim());
+
   const allowedOrigins = [
-    process.env.ALLOWED_ORIGIN || "",
+    ...envOrigins,
     "https://studio.apollographql.com",
     "http://localhost:3000",
     "http://localhost:3001",
