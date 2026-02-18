@@ -35,6 +35,7 @@ export const Projects = () => {
         // Lógica de conexión con fallback (Si local falla, usa Vercel)
         const localUrl =
           process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+        const vercelUrl = process.env.NEXT_PUBLIC_API_VERCEL_URL;
 
         const fetchData = async (url: string) => {
           return await fetch(`${url.replace(/\/$/, "")}/`, {
@@ -48,20 +49,10 @@ export const Projects = () => {
         try {
           res = await fetchData(localUrl);
         } catch {
-          // Si el local no responde, determinamos si usar Dev o Prod en Vercel
+          // Si el local no responde, usamos el de Vercel
           console.log("Local backend not found, connecting to Vercel...");
-
-          const devUrl = process.env.NEXT_PUBLIC_API_VERCEL_URL_DEV;
-          const prodUrl = process.env.NEXT_PUBLIC_API_VERCEL_URL;
-
-          // Si estamos en la web y la URL contiene "git-dev", priorizamos el backend de dev
-          const isDevBranch =
-            typeof window !== "undefined" &&
-            window.location.hostname.includes("git-dev");
-          const targetUrl = isDevBranch && devUrl ? devUrl : prodUrl || devUrl;
-
-          if (targetUrl) {
-            res = await fetchData(targetUrl);
+          if (vercelUrl) {
+            res = await fetchData(vercelUrl);
           } else {
             throw new Error("No API URL available");
           }
