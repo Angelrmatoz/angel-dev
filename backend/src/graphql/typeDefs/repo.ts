@@ -11,9 +11,11 @@ export const repoTypeDefs = `#graphql
     stargazerCount: Int
     primaryLanguage: Language
     homepageUrl: String
+    owner: String
   }
 
   extend type Query {
     pinnedRepos(username: String!): [Repository]
+    recentRepos(username: String!): [Repository]
   }
 `;

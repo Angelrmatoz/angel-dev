@@ -32,14 +32,18 @@ export const Projects = () => {
         const query = `query Pinned($username: String!) { pinnedRepos(username: $username) { name description url stargazerCount primaryLanguage { name } homepageUrl } }`;
         const variables = { username: "Angelrmatoz" };
 
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:9000"}/`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ query, variables }),
-          },
-        );
+        // Lógica de selección de API inteligente
+        const API_BASE_URL =
+          process.env.NEXT_PUBLIC_API_URL ||
+          process.env.NEXT_PUBLIC_API_VERCEL_URL ||
+          process.env.NEXT_PUBLIC_API_BACKEND_URL ||
+          "http://localhost:9000";
+
+        const res = await fetch(`${API_BASE_URL}/`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query, variables }),
+        });
 
         if (!res.ok) {
           throw new Error(`Network error: ${res.status} ${res.statusText}`);

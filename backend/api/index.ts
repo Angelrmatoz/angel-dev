@@ -43,12 +43,15 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server, {
   },
 });
 
-// Wrapper para manejar CORS
+import { ALLOWED_ORIGIN } from "../src/utils/config.js";
+
+// ... (resto del código igual)
+
+// Wrapper para manejar CORS mejorado
 const withCors = (fn: Function) => async (req: NextRequest) => {
-  const origin = req.headers.get("origin") || "*";
   const res = await fn(req);
 
-  res.headers.set("Access-Control-Allow-Origin", origin);
+  res.headers.set("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
   res.headers.set("Access-Control-Allow-Credentials", "true");
   res.headers.set("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
   res.headers.set(
@@ -62,11 +65,10 @@ const withCors = (fn: Function) => async (req: NextRequest) => {
 const corsHandler = withCors(handler);
 
 export const OPTIONS = async (req: NextRequest) => {
-  const origin = req.headers.get("origin") || "*";
   return new Response(null, {
     status: 204,
     headers: {
-      "Access-Control-Allow-Origin": origin,
+      "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
       "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
       "Access-Control-Allow-Credentials": "true",
