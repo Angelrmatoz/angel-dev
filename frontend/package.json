@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -H 0.0.0.0 --webpack --port 3001",
+    "dev": "next dev -H 0.0.0.0 --webpack --port 3000",
+    "dev:vercel": "vercel dev --listen 3000",
     "build": "next build --webpack",
     "start": "node .next/standalone/server.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",

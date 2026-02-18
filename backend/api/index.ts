@@ -1,79 +1,101 @@
-import { ApolloServer } from "@apollo/server";
-import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import type { ApolloServerPlugin } from "@apollo/server";
+import { ApolloServer, HeaderMap } from "@apollo/server";
 import { typeDefs } from "../src/graphql/typeDefs/index.js";
 import { resolvers } from "../src/graphql/resolvers/index.js";
 import { context } from "../src/graphql/context.js";
-// @ts-ignore
-import { NextRequest } from "next/server";
+import { parse as urlParse } from "url";
 
-const isDev = process.env.NODE_ENV !== "production";
-
-const createDevLoggingPlugin = (): ApolloServerPlugin => ({
-  requestDidStart: async (requestContext: any) => {
-    const url = requestContext.request.http?.url ?? "/api";
-    const method = requestContext.request.http?.method ?? "POST";
-    const op = requestContext.request.operationName ?? "-";
-    const time = new Date().toISOString();
-
-    if (op !== "IntrospectionQuery") {
-      console.log(
-        `[VERCEL-API] ${time} - ${method} ${url} - operationName: ${op}`,
-      );
-    }
-    return {};
-  },
-});
-
+// Inicializamos el servidor de Apollo
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  plugins: isDev ? [createDevLoggingPlugin()] : [],
+  introspection: true, // Permitimos introspección para que funcione Apollo Sandbox
 });
 
-// @ts-ignore - Conflicto de tipos privado 'internals' derivado de la mezcla de ESM/CJS en Apollo Server
-const handler = startServerAndCreateNextHandler<NextRequest>(server, {
-  context: async (req) => {
-    // En Vercel Functions / Next.js Handler, req es de tipo NextRequest o IncomingMessage
-    const baseContext = await context({ req });
-    return {
-      ...baseContext,
-      url: req.url,
-    };
-  },
-});
+let serverStarted = false;
 
-import { ALLOWED_ORIGIN } from "../src/utils/config.js";
+export default async function handler(req: any, res: any) {
+  // Configuración manual de CORS
+  // Esto es necesario para que el frontend pueda conectarse desde otros dominios (Vercel, localhost, etc.)
+  const origin = req.headers.origin;
+  const allowedOrigins = [
+    process.env.ALLOWED_ORIGIN || "",
+    "https://studio.apollographql.com",
+    "http://localhost:3000",
+    "http://localhost:3001",
+  ];
 
-// ... (resto del código igual)
+  if (allowedOrigins.includes(origin) || !origin) {
+    res.setHeader("Access-Control-Allow-Origin", origin || "*");
+  }
 
-// Wrapper para manejar CORS mejorado
-const withCors = (fn: Function) => async (req: NextRequest) => {
-  const res = await fn(req);
-
-  res.headers.set("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
-  res.headers.set("Access-Control-Allow-Credentials", "true");
-  res.headers.set("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  res.headers.set(
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,OPTIONS,PATCH,DELETE,POST,PUT",
+  );
+  res.setHeader(
     "Access-Control-Allow-Headers",
-    "Content-Type, Authorization",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization",
   );
 
-  return res;
-};
+  // Si es una petición OPTIONS, respondemos con 200 inmediatamente
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return;
+  }
 
-const corsHandler = withCors(handler);
+  // Aseguramos que Apollo Server haya arrancado
+  if (!serverStarted) {
+    await server.start();
+    serverStarted = true;
+  }
 
-export const OPTIONS = async (req: NextRequest) => {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-      "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Credentials": "true",
-    },
-  });
-};
+  // Convertimos los headers de la petición a HeaderMap de Apollo
+  const headers = new HeaderMap();
+  for (const [key, value] of Object.entries(req.headers)) {
+    if (value !== undefined) {
+      headers.set(
+        key,
+        Array.isArray(value) ? value.join(", ") : (value as string),
+      );
+    }
+  }
 
-export { corsHandler as GET, corsHandler as POST };
+  // Preparamos la petición para Apollo
+  const httpGraphQLRequest = {
+    method: req.method?.toUpperCase() || "POST",
+    headers,
+    search: urlParse(req.url || "").search ?? "",
+    body: req.body,
+  };
+
+  try {
+    // Ejecutamos la petición directamente contra el core de Apollo Server
+    // Esto evita depender de integraciones externas como /express4 o /next que pueden fallar por versiones
+    const httpGraphQLResponse = await server.executeHTTPGraphQLRequest({
+      httpGraphQLRequest,
+      context: () => context({ req }),
+    });
+
+    // Copiamos los headers de respuesta de Apollo a la respuesta de Vercel
+    for (const [key, value] of httpGraphQLResponse.headers) {
+      res.setHeader(key, value);
+    }
+
+    res.statusCode = httpGraphQLResponse.status || 200;
+
+    // Procesamos el cuerpo de la respuesta
+    if (httpGraphQLResponse.body.kind === "complete") {
+      res.end(httpGraphQLResponse.body.string);
+    } else {
+      // Para respuestas en streaming (si las hubiera)
+      for await (const chunk of httpGraphQLResponse.body.asyncIterator) {
+        res.write(chunk);
+      }
+      res.end();
+    }
+  } catch (error: any) {
+    console.error("Apollo execution error:", error);
+    res.status(500).json({ errors: [{ message: error.message }] });
+  }
+}

@@ -32,18 +32,31 @@ export const Projects = () => {
         const query = `query Pinned($username: String!) { pinnedRepos(username: $username) { name description url stargazerCount primaryLanguage { name } homepageUrl } }`;
         const variables = { username: "Angelrmatoz" };
 
-        // Lógica de selección de API inteligente
-        const API_BASE_URL =
-          process.env.NEXT_PUBLIC_API_URL ||
-          process.env.NEXT_PUBLIC_API_VERCEL_URL ||
-          process.env.NEXT_PUBLIC_API_BACKEND_URL ||
-          "http://localhost:9000";
+        // Lógica de conexión con fallback (Si local falla, usa Vercel)
+        const localUrl =
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+        const vercelUrl = process.env.NEXT_PUBLIC_API_VERCEL_URL;
 
-        const res = await fetch(`${API_BASE_URL}/`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query, variables }),
-        });
+        const fetchData = async (url: string) => {
+          return await fetch(`${url.replace(/\/$/, "")}/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query, variables }),
+          });
+        };
+
+        let res;
+        try {
+          res = await fetchData(localUrl);
+        } catch {
+          // Si el local no responde, usamos el de Vercel
+          console.log("Local backend not found, connecting to Vercel...");
+          if (vercelUrl) {
+            res = await fetchData(vercelUrl);
+          } else {
+            throw new Error("No API URL available");
+          }
+        }
 
         if (!res.ok) {
           throw new Error(`Network error: ${res.status} ${res.statusText}`);
