@@ -24,14 +24,14 @@ jobs:
           node-version: 20
 
       - name: Backend - Install & Build
+        working-directory: ./backend
         run: |
-          cd backend
           pnpm install
           pnpm run build
 
       - name: Frontend - Install & Build
+        working-directory: ./frontend
         run: |
-          cd frontend
           pnpm install
           pnpm run build
 
