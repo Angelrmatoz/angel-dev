@@ -19,12 +19,17 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icons/icon.svg",
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
@@ -33,15 +38,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
       >
         <BackgroundGradientAnimation
-          containerClassName="min-h-[100dvh] flex flex-col"
+          containerClassName="min-h-[100dvh] w-full flex flex-col overflow-x-hidden"
           className="flex-1 flex flex-col"
         >
-          {children}
+          <main className="flex-1 flex flex-col w-full relative">
+            {children}
+          </main>
         </BackgroundGradientAnimation>
       </body>
     </html>
