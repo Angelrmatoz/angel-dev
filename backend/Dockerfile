@@ -54,4 +54,4 @@ COPY --from=build /app/dist ./dist
 COPY package.json ./
 
 USER node
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/src/index.js"]
