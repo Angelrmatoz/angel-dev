@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
@@ -19,6 +19,16 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icons/icon.svg",
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -27,15 +37,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
       >
         <BackgroundGradientAnimation
-          containerClassName="min-h-screen flex flex-col"
+          containerClassName="min-h-screen w-full flex flex-col overflow-x-hidden"
           className="flex-1 flex flex-col"
         >
-          {children}
+          {/* 
+            Este 'main' es el que recibe el padding para no chocar con el notch, 
+            pero el BackgroundGradientAnimation de arriba sigue cubriendo todo.
+          */}
+          <main className="flex-1 flex flex-col w-full relative pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
+            {children}
+          </main>
         </BackgroundGradientAnimation>
       </body>
     </html>
