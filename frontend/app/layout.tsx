@@ -29,7 +29,6 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#000000",
 };
 
 export default function RootLayout({
@@ -43,10 +42,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
       >
         <BackgroundGradientAnimation
-          containerClassName="min-h-[100dvh] w-full flex flex-col overflow-x-hidden"
+          containerClassName="min-h-screen w-full flex flex-col overflow-x-hidden"
           className="flex-1 flex flex-col"
         >
-          <main className="flex-1 flex flex-col w-full relative">
+          {/* 
+            Este 'main' es el que recibe el padding para no chocar con el notch, 
+            pero el BackgroundGradientAnimation de arriba sigue cubriendo todo.
+          */}
+          <main className="flex-1 flex flex-col w-full relative pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
             {children}
           </main>
         </BackgroundGradientAnimation>
