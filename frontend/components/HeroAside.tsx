@@ -5,7 +5,7 @@ export const HeroAside = () => {
   return (
     <aside className="flex justify-center lg:justify-end">
       <CardContainer className="inter-var" containerClassName="py-0">
-        <CardBody className="relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] w-56 h-56 sm:w-64 sm:h-72 md:w-80 md:h-96 lg:w-105 lg:h-130">
+        <CardBody className="relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/10 w-56 h-56 sm:w-64 sm:h-72 md:w-80 md:h-96 lg:w-105 lg:h-130">
           <CardItem
             translateZ="100"
             className="w-full h-full relative"
