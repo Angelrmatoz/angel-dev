@@ -1,19 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { HeroAside } from "@/components/HeroAside";
 import { DockMenu } from "@/components/DockMenu";
-import NavBar from "@/components/NavBar";
 import { Experience } from "@/components/Experience";
-import { HamburgerSideBar } from "@/components/HamburgerSideBar";
 import { Projects } from "@/components/Projects";
 
 export default function Home() {
   return (
     <div id="home">
-      <header>
-        <NavBar />
-        <HamburgerSideBar />
-      </header>
-      <main className="relative z-10 flex flex-col items-center pt-6">
+      <div className="relative z-10 flex flex-col items-center pt-6">
         <div className="container mx-auto px-6 lg:px-20 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Sección izquierda: texto de presentación */}
@@ -78,7 +72,7 @@ export default function Home() {
           {/* Anchor targets */}
           <div id="contact" aria-hidden="true" className="py-10" />
         </div>
-      </main>
+      </div>
     </div>
   );
 }

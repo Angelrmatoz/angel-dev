@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
+import NavBar from "@/components/NavBar";
+import { HamburgerSideBar } from "@/components/HamburgerSideBar";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,6 +48,10 @@ export default function RootLayout({
           containerClassName="min-h-screen w-full flex flex-col overflow-x-hidden"
           className="flex-1 flex flex-col"
         >
+          <header>
+            <NavBar />
+            <HamburgerSideBar />
+          </header>
           {/* 
             Este 'main' es el que recibe el padding para no chocar con el notch, 
             pero el BackgroundGradientAnimation de arriba sigue cubriendo todo.
@@ -52,6 +59,7 @@ export default function RootLayout({
           <main className="flex-1 flex flex-col w-full relative pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
             {children}
           </main>
+          <Footer />
         </BackgroundGradientAnimation>
       </body>
     </html>
