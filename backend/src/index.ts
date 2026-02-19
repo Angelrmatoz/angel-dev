@@ -1,7 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import type { ApolloServerPlugin } from "@apollo/server";
-import { PORT, ALLOWED_ORIGIN } from "./utils/config.js";
+import { PORT, ALLOWED_ORIGIN } from "./config/env.js";
 import { typeDefs } from "./graphql/typeDefs/index.js";
 import { resolvers } from "./graphql/resolvers/index.js";
 import { context } from "./graphql/context.js";
@@ -35,8 +35,8 @@ const { url } = await startStandaloneServer(server, {
     ...(await context({ req })),
     url: req.url,
   }),
-  listen: { port: Number(PORT) },
+  listen: { port: Number(PORT), host: "0.0.0.0" },
 } as any);
 
-console.log(`🚀 Server ready at: ${url}`);
+console.log(`🚀 Server ready at: http://localhost:${PORT}/`);
 console.log(`CORS Policy: Allowing ${ALLOWED_ORIGIN}`);

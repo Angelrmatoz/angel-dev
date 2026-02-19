@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GITHUB_TOKEN } from "../utils/config.js";
+import { GITHUB_TOKEN } from "../config/env.js";
 
 const GITHUB_GRAPHQL_URL = "https://api.github.com/graphql";
 

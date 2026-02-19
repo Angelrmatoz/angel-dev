@@ -6,7 +6,7 @@ services:
       target: development
     container_name: backend-dev-container
     ports:
-      - "9000:9000"
+      - "${PORT:-3001}:${PORT:-3001}"
     volumes:
       - ./backend:/app:rw
       - backend_dev_node_modules:/app/node_modules
