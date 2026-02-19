@@ -214,7 +214,10 @@ export const Experience = () => {
   ];
 
   return (
-    <section id="experience" className="w-full mt-10 scroll-mt-20">
+    <section
+      id="experience"
+      className="w-full mt-0 md:mt-12 lg:mt-24 mb-10 scroll-mt-20"
+    >
       <Timeline data={experienceData} />
     </section>
   );

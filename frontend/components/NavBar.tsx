@@ -27,8 +27,8 @@ export default function NavBar() {
           // si hacemos scroll hacia abajo y ya pasamos 50px, ocultar
           if (currentY > lastScrollY.current && currentY > 50) {
             setHidden(true);
-          } else {
-            // si hacemos scroll hacia arriba, mostrar
+          } else if (currentY <= 50) {
+            // si llegamos arriba del todo (o casi), mostrar
             setHidden(false);
           }
 

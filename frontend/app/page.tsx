@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div id="home">
       <div className="relative z-10 flex flex-col items-center pt-6">
-        <div className="container mx-auto px-6 lg:px-20 py-12">
+        <div className="container mx-auto px-6 lg:px-20 py-10 md:py-16 lg:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Sección izquierda: texto de presentación */}
             <section className="max-w-xl mx-auto lg:mx-0">
@@ -62,15 +62,13 @@ export default function Home() {
         </div>
 
         {/* Sección de Experiencia con Timeline */}
-        <section>
-          <Experience />
-        </section>
+        <Experience />
 
         <Projects />
 
-        <div className="container mx-auto px-6 lg:px-20">
+        <div className="relative container mx-auto">
           {/* Anchor targets */}
-          <div id="contact" aria-hidden="true" className="py-10" />
+          <div id="contact" aria-hidden="true" />
         </div>
       </div>
     </div>

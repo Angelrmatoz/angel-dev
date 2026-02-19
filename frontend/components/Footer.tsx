@@ -33,18 +33,18 @@ const Footer = () => {
       icon: (
         <IconBrandWhatsapp className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      },
-      {
-          title: "Instagram",
-          href: "https://instagram.com/angelr_matos",
-          icon: (
-            <IconBrandInstagram className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-          ),
-      }
+    },
+    {
+      title: "Instagram",
+      href: "https://instagram.com/angelr_matos",
+      icon: (
+        <IconBrandInstagram className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+      ),
+    },
   ];
 
   return (
-    <footer className="w-full border-t border-white/10 bg-black/30 backdrop-blur-xl py-12 mt-20 relative z-20">
+    <footer className="w-full border-t border-white/10 bg-black/30 backdrop-blur-xl py-12 relative z-20">
       <div className="container mx-auto px-6 lg:px-20">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           {/* Lado Izquierdo: Enlaces de Contacto con FloatingDock */}

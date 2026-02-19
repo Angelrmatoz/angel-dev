@@ -172,6 +172,8 @@
   html {
     width: 100%;
     max-width: 100%;
+    /* Reservar espacio para el scrollbar y evitar saltos de layout */
+    scrollbar-gutter: stable;
     /* Evita el bounce vertical sin romper el scroll */
     overscroll-behavior-y: none;
     overscroll-behavior-x: auto;

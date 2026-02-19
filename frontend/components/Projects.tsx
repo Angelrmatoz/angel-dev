@@ -119,8 +119,8 @@ export const Projects = () => {
   }));
 
   return (
-    <div className="w-full py-20 scroll-mt-20" id="projects">
-      <h2 className="text-3xl md:text-5xl font-bold text-center text-white mb-10">
+    <div className="w-full py-12 md:py-20 lg:py-32 scroll-mt-20" id="projects">
+      <h2 className="text-3xl md:text-5xl font-bold text-center text-white mb-10 md:mb-16 lg:mb-20">
         Proyectos Recientes
       </h2>
       <div className="max-w-7xl mx-auto px-4">
