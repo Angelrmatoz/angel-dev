@@ -1,0 +1,50 @@
+{
+  "HomePage": {
+    "title": "Ángel Matos",
+    "badge": "UI/UX",
+    "hello": "Hello, I'm",
+    "role": "Full-Stack Web & Mobile Developer",
+    "description_1": "I am a web developer with a passion for building intuitive interfaces and clean code. My fascination with programming stems from seeing how technology transforms ideas into reality, from applications that solve real-world problems to user experiences that create impact.",
+    "description_2": "I specialize in frontend with React (Next.js/Vite) and mobile development with React Native, and I have expanded my skills towards the backend with Node.js, Express, and GraphQL. I work with databases such as MongoDB and PostgreSQL, and I use Docker and Docker Compose to set up environments and services consistently.",
+    "description_3": "If you're looking for someone passionate about code quality, committed to continuous learning, and eager to deliver solutions that truly make a difference, I'd love to connect. Let's build something great together!"
+  },
+  "NavBar": {
+    "home": "Home",
+    "experience": "Experience",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "Experience": {
+    "title": "Experience",
+    "timeline_title": "Professional Experience",
+    "timeline_description": "A summary of my career and the projects I've worked on.",
+    "dga_role": "Frontend Developer (DGA)",
+    "dga_date": "March 2025 – June 2025",
+    "dga_desc_1": "Development of modern web and mobile applications using the latest technologies in the JavaScript ecosystem.",
+    "dga_desc_2": "Focus on creating intuitive interfaces, clean code, and scalable solutions that transform ideas into impactful digital products.",
+    "property_role": "Property Group",
+    "property_date": "December 2025",
+    "property_desc": "Professional landing page for a real estate company, developed with Next.js (React 19) and TypeScript.",
+    "website": "Website",
+    "repo": "Repository"
+  },
+  "HeroAside": {
+    "alt": "Ángel Matos"
+  },
+  "DockMenu": {
+    "whatsapp_message": "Hello Ángel, I saw your portfolio and I'm interested in your work.",
+    "cv_title": "CV",
+    "cv_filename": "Ángel R. Matos Martínez CV (English).pdf"
+  },
+  "Projects": {
+    "title": "Recent Projects",
+    "no_description": "No description available.",
+    "connection_problem": "Connection Problem",
+    "unknown_error": "Unknown error connecting to the server"
+  },
+  "Footer": {
+    "designed_with": "Designed with <tech></tech>.",
+    "conjunction": "and",
+    "rights": "© {year} Ángel Matos. All rights reserved."
+  }
+}

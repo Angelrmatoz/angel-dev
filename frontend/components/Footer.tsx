@@ -8,8 +8,10 @@ import {
   IconBrandWhatsapp,
 } from "@tabler/icons-react";
 import { FloatingDock } from "@/components/ui/floating-dock";
+import { useTranslations } from "next-intl";
 
 const Footer = () => {
+  const t = useTranslations("Footer");
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
@@ -63,15 +65,26 @@ const Footer = () => {
           {/* Lado Derecho: Tecnologías y Copyright */}
           <div className="text-center md:text-right space-y-2">
             <p className="text-gray-400 text-sm md:text-base max-w-xs md:max-w-md">
-              Diseñada con{" "}
-              <span className="text-white font-medium">Next.js 16</span>,{" "}
-              <span className="text-white font-medium">Tailwind CSS 4</span>,{" "}
-              <span className="text-white font-medium">GraphQL</span>,{" "}
-              <span className="text-white font-medium">Framer Motion</span> y{" "}
-              <span className="text-white font-medium">Radix UI</span>.
+              {t.rich("designed_with", {
+                tech: (chunks) => (
+                  <>
+                    <span className="text-white font-medium">Next.js 16</span>,{" "}
+                    <span className="text-white font-medium">
+                      Tailwind CSS 4
+                    </span>
+                    , <span className="text-white font-medium">GraphQL</span>,{" "}
+                    <span className="text-white font-medium">
+                      Framer Motion
+                    </span>{" "}
+                    {t("conjunction")}{" "}
+                    <span className="text-white font-medium">Radix UI</span>
+                    {chunks}
+                  </>
+                ),
+              })}
             </p>
             <p className="text-gray-500 text-xs">
-              © {currentYear} Ángel Matos. Todos los derechos reservados.
+              {t("rights", { year: currentYear })}
             </p>
           </div>
         </div>

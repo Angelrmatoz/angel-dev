@@ -10,6 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import LoaderOneDemo from "@/components/ui/loader/index";
+import { useTranslations } from "next-intl";
 
 interface Repo {
   name: string;
@@ -21,6 +22,7 @@ interface Repo {
 }
 
 export const Projects = () => {
+  const t = useTranslations("Projects");
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,6 +38,10 @@ export const Projects = () => {
         const localUrl =
           process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
         const vercelUrl = process.env.NEXT_PUBLIC_API_VERCEL_URL;
+        const isLocalHost =
+          typeof window !== "undefined" &&
+          (window.location.hostname === "localhost" ||
+            window.location.hostname === "127.0.0.1");
 
         const fetchData = async (url: string) => {
           return await fetch(`${url.replace(/\/$/, "")}/`, {
@@ -46,16 +52,24 @@ export const Projects = () => {
         };
 
         let res;
-        try {
-          res = await fetchData(localUrl);
-        } catch {
-          // Si el local no responde, usamos el de Vercel
-          console.log("Local backend not found, connecting to Vercel...");
-          if (vercelUrl) {
-            res = await fetchData(vercelUrl);
-          } else {
-            throw new Error("No API URL available");
+        // Solo intentamos localUrl si estamos en local o si no apunta a localhost
+        const shouldTryLocal = isLocalHost || !localUrl.includes("localhost");
+
+        if (shouldTryLocal) {
+          try {
+            res = await fetchData(localUrl);
+          } catch {
+            // Si el local no responde, usamos el de Vercel si es diferente
+            if (vercelUrl && localUrl !== vercelUrl) {
+              res = await fetchData(vercelUrl);
+            } else {
+              throw new Error("No API URL available");
+            }
           }
+        } else if (vercelUrl) {
+          res = await fetchData(vercelUrl);
+        } else {
+          throw new Error("No API URL available");
         }
 
         if (!res.ok) {
@@ -88,7 +102,7 @@ export const Projects = () => {
         setRepos(data);
       } catch (err: unknown) {
         console.error("Error fetching pinned repos:", err);
-        let message = "Error desconocido al conectar con el servidor";
+        let message = t("unknown_error");
         if (typeof err === "string") message = err;
         else if (err && typeof err === "object") {
           const m = (err as Record<string, unknown>)["message"];
@@ -101,7 +115,7 @@ export const Projects = () => {
     };
 
     fetchRepos();
-  }, []);
+  }, [t]);
 
   if (loading) {
     return (
@@ -121,12 +135,12 @@ export const Projects = () => {
   return (
     <div className="w-full py-12 md:py-20 lg:py-32 scroll-mt-20" id="projects">
       <h2 className="text-3xl md:text-5xl font-bold text-center text-white mb-10 md:mb-16 lg:mb-20">
-        Proyectos Recientes
+        {t("title")}
       </h2>
       <div className="max-w-7xl mx-auto px-4">
         {error ? (
           <Alert variant="destructive">
-            <AlertTitle>Problema de conexión</AlertTitle>
+            <AlertTitle>{t("connection_problem")}</AlertTitle>
             <AlertDescription>
               <p>{error}</p>
             </AlertDescription>
@@ -159,7 +173,7 @@ export const Projects = () => {
                     </div>
                   </div>
                   <p className="text-zinc-400 tracking-wide leading-relaxed text-sm mb-4">
-                    {repo.description || "Sin descripción disponible."}
+                    {repo.description || t("no_description")}
                   </p>
 
                   <div className="mt-auto flex justify-between items-center">

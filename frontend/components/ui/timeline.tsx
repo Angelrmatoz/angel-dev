@@ -3,6 +3,7 @@
 import { useScroll, useTransform, motion } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { useTranslations } from "next-intl";
 
 interface TimelineEntry {
   title: string;
@@ -11,6 +12,7 @@ interface TimelineEntry {
 }
 
 export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
+  const t = useTranslations("Experience");
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -40,14 +42,10 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
   return (
     <div className="w-full font-sans relative" ref={containerRef}>
       <div className="container mx-auto pt-10 md:pt-20 lg:pt-32 px-6 lg:px-20">
-        <div className="max-w-xl mx-auto lg:mx-0">
+        <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-lg font-bold md:text-4xl mb-4 md:mb-10 lg:mb-20 text-white">
-            Experiencia Profesional
+            {t("timeline_title")}
           </h2>
-          <p className="text-gray-200 text-sm md:text-base">
-            Un resumen de mi trayectoria y los proyectos en los que he
-            trabajado.
-          </p>
         </div>
       </div>
 
@@ -58,7 +56,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         {data.map((item, index) => (
           <div
             key={index}
-            className="flex justify-start pt-10 md:pt-20 md:gap-10 px-6 lg:px-20"
+            className="relative flex justify-start pt-10 md:pt-20 md:gap-10 px-6 lg:px-20"
           >
             <div className="sticky flex flex-col z-40 items-start top-40 self-start max-w-xs lg:max-w-sm md:w-full">
               <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full backdrop-blur-sm flex items-center justify-center top-0">
