@@ -22,7 +22,7 @@ export const HamburgerSideBar = () => {
       {/* Botón Flotante */}
       <button
         onClick={toggleMenu}
-        className="fixed top-6 right-6 z-[60] p-3 bg-gray-800/40 backdrop-blur-md border border-white/10 rounded-full text-white shadow-xl hover:bg-gray-700/50 transition-all active:scale-95"
+        className="fixed top-6 right-6 z-60 p-3 bg-gray-800/40 backdrop-blur-md border border-white/10 rounded-full text-white shadow-xl hover:bg-gray-700/50 transition-all active:scale-95"
         aria-label="Toggle Menu"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -31,14 +31,14 @@ export const HamburgerSideBar = () => {
       {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[58]"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-58"
           onClick={toggleMenu}
         />
       )}
 
       {/* Sidebar Menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-gray-900/40 backdrop-blur-xl border-l border-white/10 z-[59] transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 h-full w-64 bg-gray-900/40 backdrop-blur-xl border-l border-white/10 z-59 transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

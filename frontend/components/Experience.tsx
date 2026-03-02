@@ -1,22 +1,24 @@
+"use client";
+
 import { Timeline } from "@/components/ui/timeline";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export const Experience = () => {
+  const t = useTranslations("Experience");
+
   const experienceData = [
     {
-      title: "Frontend Developer (DGA)",
-      date: "Marzo 2025 – Junio 2025",
+      title: t("dga_role"),
+      date: t("dga_date"),
       content: (
         <div key="exp-dga">
           <p className="text-gray-200 text-xs md:text-sm font-normal mb-4">
-            Desarrollo de aplicaciones web y móviles modernas utilizando las
-            últimas tecnologías del ecosistema JavaScript.
+            {t("dga_desc_1")}
           </p>
           <p className="text-gray-200 text-xs md:text-sm font-normal mb-4">
-            Enfoque en la creación de interfaces intuitivas, código limpio y
-            soluciones escalables que transforman ideas en productos digitales
-            de impacto.
+            {t("dga_desc_2")}
           </p>
 
           <div className="flex flex-wrap gap-2">
@@ -27,7 +29,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-original.svg"
@@ -42,7 +43,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg"
@@ -50,7 +50,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redux/redux-original.svg"
@@ -72,7 +71,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg"
@@ -80,7 +78,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
@@ -93,13 +90,14 @@ export const Experience = () => {
       ),
     },
     {
-      title: "Property Group",
-      date: "Diciembre 2025",
+      title: t("property_role"),
+      date: t("property_date"),
       content: (
         <div key="exp-property">
           <p className="text-gray-200 text-xs md:text-sm font-normal mb-4">
-            Landing page profesional para una empresa de bienes raíces,
-            desarrollada con <b>Next.js (React 19)</b> y <b>TypeScript</b>.
+            {t.rich("property_desc", {
+              b: (chunks) => <b>{chunks}</b>,
+            })}
           </p>
           <div className="flex flex-wrap gap-2 mb-4">
             <Image
@@ -109,7 +107,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-plain.svg"
@@ -117,7 +114,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
@@ -125,7 +121,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg"
@@ -133,7 +128,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
@@ -141,7 +135,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg"
@@ -149,7 +142,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg"
@@ -157,7 +149,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg"
@@ -165,7 +156,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg"
@@ -173,7 +163,6 @@ export const Experience = () => {
               width={32}
               height={32}
             />
-
             <Image
               className="h-8 w-8 object-contain"
               src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-plain.svg"
@@ -192,7 +181,7 @@ export const Experience = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Sitio Web
+                {t("website")}
               </a>
             </Badge>
             <Badge
@@ -204,7 +193,7 @@ export const Experience = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Repositorio
+                {t("repo")}
               </a>
             </Badge>
           </div>
@@ -216,7 +205,7 @@ export const Experience = () => {
   return (
     <section
       id="experience"
-      className="w-full mt-0 md:mt-12 lg:mt-24 mb-10 scroll-mt-20"
+      className="relative w-full mt-0 md:mt-12 lg:mt-24 mb-10 scroll-mt-20"
     >
       <Timeline data={experienceData} />
     </section>
