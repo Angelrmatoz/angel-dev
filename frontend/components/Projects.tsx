@@ -190,7 +190,7 @@ export const Projects = () => {
                         </span>
                       )}
                     </div>
-                    <div className="text-white/50 group-hover:text-white transition-colors">
+                    <div className="text-white/50 group-hover:text-white transition-colors ">
                       <IconBrandGithub size={20} />
                     </div>
                   </div>
