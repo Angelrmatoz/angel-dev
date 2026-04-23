@@ -5,7 +5,7 @@
     "hello": "Hello, I'm",
     "role": "Full-Stack Web & Mobile Developer",
     "description_1": "I am a web developer with a passion for building intuitive interfaces and clean code. My fascination with programming stems from seeing how technology transforms ideas into reality, from applications that solve real-world problems to user experiences that create impact.",
-    "description_2": "I specialize in frontend with React (Next.js/Vite) and mobile development with React Native, and I have expanded my skills towards the backend with Node.js, Express, and GraphQL. I work with databases such as MongoDB and PostgreSQL, and I use Docker and Docker Compose to set up environments and services consistently.",
+    "description_2": "I specialize in frontend with React (Next.js/Vite) and mobile development with React Native, and I have expanded my skills towards the backend with Node.js, Express, GraphQL, Java and Spring Boot. I work with databases such as MongoDB and PostgreSQL, use Docker and Docker Compose to set up environments and services consistently, and ensure code quality using JUnit.",
     "description_3": "If you're looking for someone passionate about code quality, committed to continuous learning, and eager to deliver solutions that truly make a difference, I'd love to connect. Let's build something great together!"
   },
   "NavBar": {
