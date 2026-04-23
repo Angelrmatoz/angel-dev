@@ -4,9 +4,9 @@
     "badge": "Desarrollador Web Fullstack",
     "hello": "Hola, soy",
     "role": "Full-Stack Web & Mobile Developer",
-    "description_1": "Soy desarrollador web con pasión por construir interfaces intuitivas y código limpio. Mi fascinación por la programación nace de ver cómo la tecnología transforma ideas en realidad, desde aplicaciones que resuelven problemas reales hasta experiencias de usuario que generan impacto.",
-    "description_2": "Me especializo en frontend con React (Next.js/Vite) y desarrollo móvil con React Native, y he expandido mis habilidades hacia el backend con Node.js, Express, GraphQL, Java y Spring Boot. Trabajo con bases de datos como MongoDB y PostgreSQL, utilizo Docker y Docker Compose para levantar entornos y servicios de forma consistente, y aseguro la calidad del código mediante JUnit.",
-    "description_3": "Si buscas a alguien apasionado por la calidad del código, comprometido con el aprendizaje continuo y dispuesto a entregar soluciones que realmente marquen la diferencia, me encantaría conectar. ¡Construyamos algo genial juntos!"
+    "description_1": "Ayudo a empresas a transformar ideas complejas en productos digitales escalables y de alto rendimiento. Como Desarrollador Full-Stack, me especializo en crear experiencias de usuario excepcionales con React (Next.js/Vite) y React Native para plataformas web y móviles.",
+    "description_2": "Construyo arquitecturas robustas y seguras en el backend. Diseño APIs eficientes (REST/GraphQL) utilizando entornos modernos como Node.js (Express) y ecosistemas empresariales como Java con Spring Boot, respaldados por bases de datos como PostgreSQL y MongoDB.",
+    "description_3": "Aseguro la calidad y fiabilidad de cada entrega mediante testing automatizado (Jest, Supertest, Playwright, JUnit) y la implementación de CI/CD con GitHub Actions, Docker y Azure. Mi objetivo es escribir código limpio, mantenible y listo para escalar en la nube."
   },
   "NavBar": {
     "home": "Inicio",
