@@ -128,7 +128,7 @@ export const BackgroundGradientAnimation = ({
               `[mix-blend-mode:var(--blending-value)] w-(--size) h-(--size) top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
               `origin-[center_center]`,
               `animate-first`,
-              `opacity-100`
+              `opacity-80`
             )}
           ></div>
           <div
@@ -137,7 +137,7 @@ export const BackgroundGradientAnimation = ({
               `[mix-blend-mode:var(--blending-value)] w-(--size) h-(--size) top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
               `origin-[calc(50%-400px)]`,
               `animate-second`,
-              `opacity-100`
+              `opacity-80`
             )}
           ></div>
           <div
@@ -146,7 +146,7 @@ export const BackgroundGradientAnimation = ({
               `[mix-blend-mode:var(--blending-value)] w-(--size) h-(--size) top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
               `origin-[calc(50%+400px)]`,
               `animate-third`,
-              `opacity-100`
+              `opacity-80`
             )}
           ></div>
           <div
@@ -155,7 +155,7 @@ export const BackgroundGradientAnimation = ({
               `[mix-blend-mode:var(--blending-value)] w-(--size) h-(--size) top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
               `origin-[calc(50%-200px)]`,
               `animate-fourth`,
-              `opacity-70`
+              `opacity-60`
             )}
           ></div>
           <div
@@ -164,7 +164,7 @@ export const BackgroundGradientAnimation = ({
               `[mix-blend-mode:var(--blending-value)] w-(--size) h-(--size) top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
               `origin-[calc(50%-800px)_calc(50%+800px)]`,
               `animate-fifth`,
-              `opacity-100`
+              `opacity-80`
             )}
           ></div>
 
@@ -174,11 +174,14 @@ export const BackgroundGradientAnimation = ({
               className={cn(
                 `absolute [background:radial-gradient(circle_at_center,rgba(var(--pointer-color),0.8)_0,rgba(var(--pointer-color),0)_50%)_no-repeat]`,
                 `[mix-blend-mode:var(--blending-value)] w-full h-full -top-1/2 -left-1/2`,
-                `opacity-70`
+                `opacity-60`
               )}
             ></div>
           )}
         </div>
+        
+        {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 bg-black/40" />
       </div>
       <div className={cn("relative z-10 w-full", className)}>
         {children}

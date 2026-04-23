@@ -11,10 +11,10 @@ export default async function Home() {
   return (
     <div id="home" className="relative">
       <div className="relative z-10 flex flex-col items-center pt-6">
-        <div className="container mx-auto px-6 lg:px-20 py-10 md:py-16 lg:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="container mx-auto px-6 lg:px-20 py-10 md:py-16 lg:py-20 flex justify-center">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 w-full max-w-6xl">
             {/* Sección izquierda: texto de presentación */}
-            <section className="max-w-xl mx-auto lg:mx-0">
+            <section className="max-w-xl text-center lg:text-left">
               <Badge className="inline-block bg-gray-800/60 text-sm text-gray-200 px-3 py-1 mb-2">
                 {t("badge")}
               </Badge>
@@ -32,13 +32,13 @@ export default async function Home() {
                 <p>{t("description_3")}</p>
               </div>
 
-              <div className="mt-8">
+              <div className="mt-8 flex justify-center lg:justify-start">
                 <DockMenu />
               </div>
             </section>
 
             {/* Aside derecho: imagen */}
-            <div className="py-8 lg:py-0">
+            <div className="py-8 lg:py-0 flex-shrink-0">
               <HeroAside />
             </div>
           </div>
