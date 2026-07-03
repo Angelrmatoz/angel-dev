@@ -29,8 +29,19 @@ NEXT_PUBLIC_API_URL=https://tu-api-backend.vercel.app
 
 ## 💻 Desarrollo Local
 
-1. **Instalar dependencias**: `pnpm install`
+### Opción A: Instalación Tradicional
+1. **Instalar dependencias**: `pnpm install` (usa la versión de **pnpm v9.15.4** fijada para garantizar compatibilidad con Node 20).
 2. **Iniciar servidor**: `pnpm run dev` (Disponible en `http://localhost:3000`).
+
+### Opción B: Usando Docker (Entorno Aislado)
+Puedes levantar únicamente el frontend en modo desarrollo dentro de un contenedor Docker:
+```bash
+# Levantar el contenedor del frontend
+docker compose -f docker-compose.dev.yml up --build
+
+# Detener el contenedor limpiando volúmenes de caché
+docker compose -f docker-compose.dev.yml down -v
+```
 
 ## 🌍 Despliegue
 
