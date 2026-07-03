@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/src/index.js",
   "type": "module",
+  "packageManager": "pnpm@9.15.4",
   "scripts": {
     "dev": "nodemon -L --watch src --ext ts,json --exec tsx src/index.ts",
     "dev:vercel": "vercel dev --listen 3001",

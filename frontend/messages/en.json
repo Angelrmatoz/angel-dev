@@ -23,8 +23,11 @@
     "dga_desc_1": "Development of modern web and mobile applications using the latest technologies in the JavaScript ecosystem.",
     "dga_desc_2": "Focus on creating intuitive interfaces, clean code, and scalable solutions that transform ideas into impactful digital products.",
     "property_role": "Property Group",
-    "property_date": "December 2025",
-    "property_desc": "Professional landing page for a real estate company, developed with Next.js (React 19) and TypeScript.",
+    "property_date": "June 2025 – June 2026",
+    "property_desc": "Development of modular frontend architecture using <b>React and TypeScript</b>. Designed and implemented administrative dashboard with <b>RBAC (JWT)</b>, RESTful API with <b>Node.js, Express, and MongoDB</b>, infrastructure optimization in <b>Oracle Cloud and Docker</b>, and CI/CD deployment automation with <b>GitHub Actions and Nginx (SSL)</b>.",
+    "outlier_role": "Outlier AI",
+    "outlier_date": "June 2024 – January 2025",
+    "outlier_desc": "Auditing and optimization of technical solutions in <b>JavaScript</b> for large language models (LLMs). Identification of logical bugs, correction of hallucinations, and rewriting code under <b>Clean Code</b> standards. Documentation of acceptance criteria for model <b>fine-tuning</b>.",
     "website": "Website",
     "repo": "Repository"
   },
