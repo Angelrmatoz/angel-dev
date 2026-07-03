@@ -33,9 +33,20 @@ El servidor implementa una lógica de seguridad avanzada para Vercel:
 
 ## 💻 Ejecución Local
 
-1. **Instalar dependencias**: `pnpm install`
+### Opción A: Instalación Tradicional
+1. **Instalar dependencias**: `pnpm install` (usa la versión de **pnpm v9.15.4** fijada para garantizar compatibilidad con Node 20).
 2. **Modo Standalone**: `pnpm run dev` (Disponible en `http://localhost:3001`).
 3. **Modo Vercel Dev**: `pnpm run dev:vercel` (Simula funciones serverless localmente).
+
+### Opción B: Usando Docker (Entorno Aislado)
+Puedes levantar únicamente el backend en modo desarrollo dentro de un contenedor Docker:
+```bash
+# Levantar el contenedor del backend
+docker compose -f docker-compose.dev.yml up --build
+
+# Detener el contenedor limpiando volúmenes de caché
+docker compose -f docker-compose.dev.yml down -v
+```
 
 ## 🌍 Despliegue
 

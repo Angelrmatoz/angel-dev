@@ -2,6 +2,7 @@
   "name": "angel-dev",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@9.15.4",
   "scripts": {
     "dev": "next dev -H 0.0.0.0 --webpack --port 3000",
     "dev:vercel": "vercel dev --listen 3000",

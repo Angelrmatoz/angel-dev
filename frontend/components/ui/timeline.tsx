@@ -56,7 +56,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         {data.map((item, index) => (
           <div
             key={index}
-            className="relative flex justify-start pt-10 md:pt-20 md:gap-10 px-6 lg:px-20"
+            className="relative flex justify-start pt-20 md:pt-40 md:gap-10 px-6 lg:px-20"
           >
             <div className="sticky flex flex-col z-40 items-start top-40 self-start max-w-xs lg:max-w-sm md:w-full">
               <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full backdrop-blur-sm flex items-center justify-center top-0">

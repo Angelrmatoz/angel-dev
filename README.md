@@ -10,16 +10,30 @@ Este repositorio contiene mi portafolio profesional, dividido en una arquitectur
 
 ## 🚀 Inicio Rápido
 
-Para ejecutar todo el proyecto localmente:
+### Opción A: Usando Docker (Recomendado)
 
-### 1. Clonar el proyecto
+Si tienes Docker instalado, puedes iniciar todo el entorno (Frontend + Backend) con una sola línea de comandos desde la raíz del proyecto:
+
+```bash
+# Iniciar frontend (http://localhost:3000) y backend (http://localhost:3001)
+docker compose up --build
+
+# Para apagar limpiando volumenes y cache
+docker compose down -v
+```
+
+---
+
+### Opción B: Instalación Local
+
+#### 1. Clonar el proyecto
 
 ```bash
 git clone https://github.com/Angelrmatoz/angel-dev.git
 cd angel-dev
 ```
 
-### 2. Configurar el Backend
+#### 2. Configurar el Backend
 
 ```bash
 cd backend
@@ -30,7 +44,7 @@ pnpm run dev:vercel
 
 _Backend corriendo en `http://localhost:3001`_
 
-### 3. Configurar el Frontend
+#### 3. Configurar el Frontend
 
 ```bash
 cd ../frontend
